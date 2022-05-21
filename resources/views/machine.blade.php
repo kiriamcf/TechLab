@@ -52,11 +52,13 @@
                     <br>
                     <p class="text-xl text-center">Màquina seleccionada: {{ $machine->name }}</p>
                     <div class="flex justify-center">
-                        <form class ="pt-8" action="{{ route('reservation.show', $machine) }}" enctype="multipart/form-data" method="POST">  
+                        <form class ="flex flex-col justify-center pt-8" action="{{ route('reservation.show', $machine) }}" enctype="multipart/form-data" method="POST">  
                             @csrf
-                            <p class="font-semibold">Dia</p>
-                            <input type="date" onchange="handler(event);" name="date" min={{ now()->toDateString('Y-m-d') }}>
-                            <p class="font-semibold pt-8">Selecciona l'hora</p>
+                            <div class="flex justify-center">
+                                <p class="font-semibold pr-8 pt-2">Dia</p>
+                                <input type="date" onchange="handler(event);" name="date" min={{ now()->toDateString('Y-m-d') }}>
+                            </div>
+                            <p class="font-semibold pt-8 text-center">Selecciona l'hora</p>
                             <ul class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 m-10 max-w-mlg mx-auto">
                                 <li class="relative">
                                     <input class="sr-only peer" type="radio" value="15-16" name="answer" id="answer_15-16">
@@ -82,7 +84,9 @@
                                     <label id="label_20-21" class="flex p-5 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-blue-100 peer-checked:ring-blue-500 peer-checked:ring-2 peer-checked:border-transparent peer-checked:bg-blue-100" for="answer_20-21">20:00 - 21:00</label>
                                 </li>
                             </ul>
-                            <input type="submit" value="Reserva!" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <div class="flex justify-center">
+                                <input type="submit" value="Reserva!" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -1058,6 +1058,9 @@ select {
 .pb-1 {
   padding-bottom: 0.25rem;
 }
+.pr-8 {
+  padding-right: 2rem;
+}
 .text-center {
   text-align: center;
 }
