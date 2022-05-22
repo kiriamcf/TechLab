@@ -17,11 +17,8 @@ use PhpParser\Node\Expr\PostDec;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-
+Route::redirect("/", "/app");
 Route::middleware('auth')->prefix('/app')->group(function () {
     Route::get('/', [MachineController::class, 'index'])->name('dashboard');
     Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations');

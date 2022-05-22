@@ -10,18 +10,23 @@ class FrontEndController extends Controller
 
 {
     public function rfid(Request $request) {
-        // { 'id': '1234 1234 1234 1234' }
+        // { 'id_targeta': '1234 1234 1234 1234', 'id_maquina': 'X' }
 
-        $id = $request->get('id');
+        $id_targeta = $request->get('id_targeta');
+        $id_maquina = $request->get('id_maquina');
+        
         $now = now();
-        $user = User::where('targeta', $id)->firstOrFail();
-        $reservation = $user
+        $user = User::where('targeta', $id_targeta)->firstOrFail();
+        
+        $r = $user
             ->reservations()
-            ->whereDate('date', $now->startOfDay())
+            ->where('machine_id', $id_maquina)
+            ->whereDate('date', $now->copy()->startOfDay())
             ->where('hour', strval($now->hour) . '-' . strval($now->hour + 1))
             ->firstOrFail();
-            
+
         return [
+            'nom' => $user->name,
             'temps_restant' => 60 - $now->minute,
         ];
     }

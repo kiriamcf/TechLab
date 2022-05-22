@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Machine;
 use App\Models\Reservation;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ReservationController extends Controller
 {
@@ -13,10 +15,10 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('reservations', [
-            'reservation' => Reservation::all(),
+            'reservations' => $request->user()->reservations,
         ]);
     }
 
@@ -38,13 +40,27 @@ class ReservationController extends Controller
      */
     public function store(Request $request, Machine $machine)
     {
+        $validated = $request->validate([
+            'date' => ['required', 'date', 'after_or_equal:today'],
+            'answer' => [
+                'required',
+                Rule::in(Reservation::$hours),
+                Rule::unique(Reservation::class, 'hour')->where(function (Builder $query) use ($request) {
+                    return $query->where('date', $request->date);
+                })
+            ]
+        ]);
+
         Reservation::create([
             'user_id' => $request->user()->id,
             'machine_id' => $machine->id,
-            'date' => $request->date,
-            'hour' => $request->answer
+            'date' => $validated['date'],
+            'hour' => $validated['answer'],
         ]);
-        return back()->withInput();
+
+        return redirect()
+            ->route('machine.show', $machine)
+            ->with('message', "S'ha fet la reserva");
     }
 
     /**

@@ -44,16 +44,9 @@
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
-
-                        <form method="GET" action="{{ route('reservations') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('reservations')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Reservations') }}
-                            </x-dropdown-link>
-                        </form>
+                        <x-dropdown-link :href="route('reservations')" >
+                            {{ __('Reservations') }}
+                        </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
             </div>
