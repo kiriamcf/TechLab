@@ -17,8 +17,21 @@ class ReservationController extends Controller
      */
     public function index(Request $request)
     {
+        $reservations = $request->user()->reservations;
+        // $operation = fn (Reservation $r) => $r->date >= now()->startOfDay() && intval($r->hour) >= now()->hour;
+        $operation = function (Reservation $r) {
+            if ($r->date > now()->startOfDay()) {
+                return true;
+            }
+            if ($r->date == now()->startOfDay() && intval($r->hour) >= now()->hour) {
+                return true;
+            }
+            return false;
+        };
+
         return view('reservations', [
-            'reservations' => $request->user()->reservations,
+            'reservations_new' => $reservations->filter($operation),
+            'reservations_old' => $reservations->reject($operation),
         ]);
     }
 

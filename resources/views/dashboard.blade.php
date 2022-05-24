@@ -8,7 +8,7 @@
 
                         @foreach ($machines as $machine)
                             <div class="bg-gray-100 rounded p-4">
-                                <div class="text-center">{{ $machine->name }}</div>
+                                <div class="text-center underline underline-offset-4 decoration-2">{{ $machine->name }}</div>
                                 <div class="text-justify pt-4">{{ $machine->description }}</div>
                                 <div class="flex justify-center w-1/2 mx-auto pt-4">
                                     <a href={{ route('machine.show', $machine) }}>
