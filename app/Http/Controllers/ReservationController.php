@@ -31,7 +31,7 @@ class ReservationController extends Controller
 
         return view('reservations', [
             'reservations_new' => $reservations->filter($operation),
-            'reservations_old' => $reservations->reject($operation),
+            'reservations_old' => $reservations->reject($operation)->sortbyDesc('id')->take(15),
         ]);
     }
 
@@ -104,6 +104,32 @@ class ReservationController extends Controller
             }
         }
         return json_encode($array_hours);
+    }
+
+    /**
+     * Return hours already reserved from a specific date.
+     *
+     * @param  \App\Models\Reservation  $reservation
+     * @return \Illuminate\Http\Response
+     */
+    public function show_statistic_values(Reservation $reservation)
+    {
+        $machines = array();
+        $hours = array();
+        $total_machines = [1,2,3,4,5,6];
+        $total_hours = ['08-09','09-10','10-11','11-12','15-16','16-17','17-18','18-19','19-20','20-21'];
+        foreach ($total_machines as $machine) {
+            $count = $reservation->where('machine_id', $machine)->count();
+            array_push($machines, $count);
+        }
+        foreach ($total_hours as $hour) {
+            $count = $reservation->where('hour', $hour)->count();
+            array_push($hours, $count);
+        }
+        return view('statistics', [
+            'array_machines' => $machines,
+            'array_hours' => $hours,
+        ]);
     }
 
     /**
