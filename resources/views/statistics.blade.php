@@ -24,7 +24,26 @@
             const config = {
                 type: 'bar',
                 data: data,
-                options: {}
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Numero de reserves'
+                            },
+                            ticks: {
+                                stepSize: 1,
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Maquines disponibles'
+                            }
+                        }
+                    }
+                }
             };
 
             const myChart = new Chart(
@@ -61,7 +80,26 @@
             const config = {
                 type: 'bar',
                 data: data,
-                options: {}
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Numero de reserves'
+                            },
+                            ticks: {
+                                stepSize: 1,
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Hores disponibles'
+                            }
+                        }
+                    }
+                }
             };
 
             const myChart = new Chart(
@@ -82,14 +120,14 @@
                         Estadistiques sobre màquines</p>
                     <br>
                     <div>
-                        <canvas id="myChart_machines"></canvas>
+                        <canvas id="myChart_machines" class="h-64"></canvas>
                     </div>
                     <p
                         class="mt-10 font-semibold text-3xl uppercase underline underline-offset-8 decoration-2 text-center">
                         Estadistiques sobre hores</p>
                     <br>
                     <div>
-                        <canvas id="myChart_hours"></canvas>
+                        <canvas id="myChart_hours" class="h-64"></canvas>
                     </div>
                 </div>
             </div>

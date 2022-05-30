@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MachineController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Middleware\EnsureAdmin;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Route;
 use PhpParser\Node\Expr\PostDec;
@@ -22,7 +23,8 @@ Route::redirect("/", "/app");
 Route::middleware('auth')->prefix('/app')->group(function () {
     Route::get('/', [MachineController::class, 'index'])->name('dashboard');
     Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations');
-    Route::get('/statistics', [ReservationController::class, 'show_statistic_values'])->name('statistics');
+    Route::get('/statistics', [ReservationController::class, 'show_statistic_values'])->middleware(EnsureAdmin::class)->name('statistics');
+    Route::delete('/reservation/{reservation}', [ReservationController::class, 'destroy'])->name('reservation.destroy');
     Route::get('/machine/{machine}', [MachineController::class, 'show'])->name('machine.show');
     Route::post('/machine/{machine}', [ReservationController::class, 'store'])->name('reservation.show');
     Route::post('/machine/{machine}/json', [ReservationController::class, 'show_reserved_hours'])->name('reservation.show_reserved_hours');

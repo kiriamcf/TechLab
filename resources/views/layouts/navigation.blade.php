@@ -48,11 +48,13 @@
                             </x-dropdown-link>
                         </form>
                         <x-dropdown-link :href="route('reservations')">
-                            {{ __('Reservations') }}
+                            {{ __('Reserves') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('statistics')">
-                            {{ __('Statistics') }}
-                        </x-dropdown-link>
+                        @if (request()->user()->admin == 1)
+                            <x-dropdown-link :href="route('statistics')">
+                                {{ __('Estadistiques') }}
+                            </x-dropdown-link>
+                        @endif
                     </x-slot>
                 </x-dropdown>
             </div>

@@ -58,8 +58,8 @@ class ReservationController extends Controller
             'answer' => [
                 'required',
                 Rule::in(Reservation::$hours),
-                Rule::unique(Reservation::class, 'hour')->where(function (Builder $query) use ($request) {
-                    return $query->where('date', $request->date);
+                Rule::unique(Reservation::class, 'hour')->where(function (Builder $query) use ($request, $machine) {
+                    return $query->where('machine_id', $machine->id)->where('date', $request->date);
                 })
             ]
         ]);
@@ -99,7 +99,7 @@ class ReservationController extends Controller
     {
         $array_hours = array();
         foreach ($request->array_h as $hora) {
-            if ($reservation->where('user_id',$request->user()->id)->where('machine_id',$request->maquina)->where('date',$request->date)->where('hour',$hora)->first() != null) {
+            if ($reservation->where('user_id', $request->user()->id)->where('machine_id', $request->maquina)->where('date', $request->date)->where('hour', $hora)->first() != null) {
                 array_push($array_hours, $hora);
             }
         }
@@ -116,8 +116,8 @@ class ReservationController extends Controller
     {
         $machines = array();
         $hours = array();
-        $total_machines = [1,2,3,4,5,6];
-        $total_hours = ['08-09','09-10','10-11','11-12','15-16','16-17','17-18','18-19','19-20','20-21'];
+        $total_machines = [1, 2, 3, 4, 5, 6];
+        $total_hours = ['08-09', '09-10', '10-11', '11-12', '15-16', '16-17', '17-18', '18-19', '19-20', '20-21'];
         foreach ($total_machines as $machine) {
             $count = $reservation->where('machine_id', $machine)->count();
             array_push($machines, $count);
@@ -163,6 +163,8 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        //
+        $reservation->delete();
+
+        return redirect()->back();
     }
 }
