@@ -49,12 +49,12 @@
                             if (d.getHours() >= data.array_h[i].substring(3)) {
                                 const boto = document.getElementById("answer_".concat(data.array_h[i]));
                                 if (boto.hasAttribute('disabled') == false) {
-                                    boto.setAttribute('disabled');
+                                    boto.setAttribute('disabled', '');
                                     const label_boto = document.getElementById("label_".concat(data.array_h[i]));
-                                    label_boto.classList.remove("bg-red-50");
-                                    label_boto.classList.remove("hover:bg-red-100");
-                                    label_boto.classList.add("hover:bg-blue-50");
-                                    label_boto.classList.add("bg-white");
+                                    label_boto.classList.remove("hover:bg-blue-50");
+                                    label_boto.classList.remove("bg-white");
+                                    label_boto.classList.add("hover:bg-red-100");
+                                    label_boto.classList.add("bg-red-50");
                                 }
                             }
                         }
